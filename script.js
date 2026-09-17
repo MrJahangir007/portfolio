@@ -1,11 +1,6 @@
-/* ============================================
-   MD. JAHANGIR ALAM — PORTFOLIO SCRIPTS
-   ============================================ */
-
 (function () {
   'use strict';
 
-  /* --- 1. Loading Screen --- */
   window.addEventListener('load', function () {
     var loader = document.getElementById('loader');
     setTimeout(function () {
@@ -13,7 +8,6 @@
     }, 800);
   });
 
-  /* --- 2. Theme Toggle --- */
   var themeToggle = document.getElementById('themeToggle');
   var html = document.documentElement;
   var savedTheme = localStorage.getItem('theme') || 'dark';
@@ -26,7 +20,6 @@
     localStorage.setItem('theme', next);
   });
 
-  /* --- 3. Typing Effect --- */
   var roles = [
     'Sales & Operations Professional',
     'MIS & Team Leadership',
@@ -70,7 +63,6 @@
     setTimeout(typeRole, 1000);
   }
 
-  /* --- 4. Animated Counters --- */
   var counters = document.querySelectorAll('[data-count]');
   var counterDone = false;
 
@@ -97,7 +89,6 @@
     }
   }
 
-  /* --- 5. Scroll Progress Bar --- */
   var scrollProgress = document.getElementById('scrollProgress');
 
   function updateScrollProgress() {
@@ -107,7 +98,6 @@
     scrollProgress.style.width = progress + '%';
   }
 
-  /* --- 6. Navigation Scroll Effect --- */
   var nav = document.getElementById('nav');
 
   function updateNav() {
@@ -118,7 +108,6 @@
     }
   }
 
-  /* --- 7. Active Nav Link Highlighting --- */
   var sections = document.querySelectorAll('section[id]');
   var navLinks = document.querySelectorAll('.nav__link');
 
@@ -139,7 +128,6 @@
     });
   }
 
-  /* --- 8. Mobile Menu Toggle --- */
   var hamburger = document.getElementById('hamburger');
   var navLinksContainer = document.getElementById('navLinks');
 
@@ -153,7 +141,6 @@
     });
   });
 
-  /* --- 9. Reveal on Scroll --- */
   var revealElements = document.querySelectorAll('.section__header, .about__grid, .skill-card, .timeline__item, .project-card, .edu-card, .cert-card, .contact__item');
   revealElements.forEach(function (el) {
     el.classList.add('reveal');
@@ -172,14 +159,12 @@
     revealObserver.observe(el);
   });
 
-  /* --- 10. Back to Top --- */
   var backToTop = document.getElementById('backToTop');
 
   backToTop.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* --- 11. Combined Scroll Handler --- */
   var ticking = false;
   window.addEventListener('scroll', function () {
     if (!ticking) {
@@ -195,7 +180,6 @@
     }
   });
 
-  /* --- Initial Calls --- */
   updateScrollProgress();
   updateNav();
   animateCounters();
