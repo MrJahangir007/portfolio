@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  /* ===== 1. Loading Screen ===== */
   window.addEventListener('load', function () {
     var loader = document.getElementById('loader');
     setTimeout(function () {
@@ -8,6 +9,7 @@
     }, 800);
   });
 
+  /* ===== 2. Theme Toggle ===== */
   var themeToggle = document.getElementById('themeToggle');
   var html = document.documentElement;
   var savedTheme = localStorage.getItem('theme') || 'dark';
@@ -20,6 +22,7 @@
     localStorage.setItem('theme', next);
   });
 
+  /* ===== 3. Typing Effect ===== */
   var roles = [
     'Sales & Operations Professional',
     'MIS & Team Leadership',
@@ -63,32 +66,50 @@
     setTimeout(typeRole, 1000);
   }
 
+  /* ===== 4. Counter Animation (Fixed) ===== */
   var counters = document.querySelectorAll('[data-count]');
-  var counterDone = false;
+  var countersDone = false;
 
   function animateCounters() {
-    if (counterDone) return;
-    var heroStats = document.querySelector('.hero__stats');
-    if (!heroStats) return;
-    var rect = heroStats.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      counterDone = true;
-      counters.forEach(function (counter) {
-        var target = parseInt(counter.getAttribute('data-count'), 10);
-        var current = 0;
-        var step = Math.max(1, Math.floor(target / 30));
-        var timer = setInterval(function () {
-          current += step;
-          if (current >= target) {
-            current = target;
-            clearInterval(timer);
-          }
-          counter.textContent = current;
-        }, 40);
-      });
-    }
+    if (countersDone) return;
+    countersDone = true;
+
+    counters.forEach(function (counter) {
+      var target = parseInt(counter.getAttribute('data-count'), 10);
+      var current = 0;
+      var step = Math.max(1, Math.floor(target / 30));
+      var duration = 1200;
+      var interval = duration / (target / step);
+
+      counter.textContent = '0';
+
+      var timer = setInterval(function () {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        counter.textContent = current;
+      }, interval);
+    });
   }
 
+  /* Use IntersectionObserver for reliable triggering */
+  var heroStats = document.querySelector('.hero__stats');
+  if (heroStats) {
+    var statsObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounters();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    statsObserver.observe(heroStats);
+  }
+
+  /* ===== 5. Scroll Progress Bar ===== */
   var scrollProgress = document.getElementById('scrollProgress');
 
   function updateScrollProgress() {
@@ -98,6 +119,7 @@
     scrollProgress.style.width = progress + '%';
   }
 
+  /* ===== 6. Navigation Scroll Effect ===== */
   var nav = document.getElementById('nav');
 
   function updateNav() {
@@ -108,6 +130,7 @@
     }
   }
 
+  /* ===== 7. Active Nav Link Highlighting ===== */
   var sections = document.querySelectorAll('section[id]');
   var navLinks = document.querySelectorAll('.nav__link');
 
@@ -128,6 +151,7 @@
     });
   }
 
+  /* ===== 8. Mobile Menu Toggle ===== */
   var hamburger = document.getElementById('hamburger');
   var navLinksContainer = document.getElementById('navLinks');
 
@@ -141,6 +165,7 @@
     });
   });
 
+  /* ===== 9. Reveal on Scroll ===== */
   var revealElements = document.querySelectorAll('.section__header, .about__grid, .skill-card, .timeline__item, .project-card, .edu-card, .cert-card, .contact__item');
   revealElements.forEach(function (el) {
     el.classList.add('reveal');
@@ -159,12 +184,14 @@
     revealObserver.observe(el);
   });
 
+  /* ===== 10. Back to Top ===== */
   var backToTop = document.getElementById('backToTop');
 
   backToTop.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  /* ===== 11. Combined Scroll Handler ===== */
   var ticking = false;
   window.addEventListener('scroll', function () {
     if (!ticking) {
@@ -172,7 +199,6 @@
         updateScrollProgress();
         updateNav();
         highlightNav();
-        animateCounters();
         backToTop.classList.toggle('visible', window.scrollY > 600);
         ticking = false;
       });
@@ -180,8 +206,8 @@
     }
   });
 
+  /* ===== Initial Calls ===== */
   updateScrollProgress();
   updateNav();
-  animateCounters();
 
 })();
